@@ -13,6 +13,7 @@
 		7B0FD5D21EE5373C00D672DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0FD5D01EE5373C00D672DC /* Main.storyboard */; };
 		7B0FD5D41EE5373C00D672DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B0FD5D31EE5373C00D672DC /* Assets.xcassets */; };
 		7B0FD5D71EE5373C00D672DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B0FD5D51EE5373C00D672DC /* LaunchScreen.storyboard */; };
+		D694A3001EE63F9C00397797 /* MECache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D694A2FF1EE63F9C00397797 /* MECache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		7B0FD5D31EE5373C00D672DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B0FD5D61EE5373C00D672DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B0FD5D81EE5373C00D672DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D694A2FE1EE63F9C00397797 /* VideoCompress-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VideoCompress-Bridging-Header.h"; sourceTree = "<group>"; };
+		D694A2FF1EE63F9C00397797 /* MECache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MECache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,11 +65,13 @@
 				7B0FD5CB1EE5373C00D672DC /* AppDelegate.m */,
 				7B0FD5CD1EE5373C00D672DC /* ViewController.h */,
 				7B0FD5CE1EE5373C00D672DC /* ViewController.m */,
+				D694A2FF1EE63F9C00397797 /* MECache.swift */,
 				7B0FD5D01EE5373C00D672DC /* Main.storyboard */,
 				7B0FD5D31EE5373C00D672DC /* Assets.xcassets */,
 				7B0FD5D51EE5373C00D672DC /* LaunchScreen.storyboard */,
 				7B0FD5D81EE5373C00D672DC /* Info.plist */,
 				7B0FD5C71EE5373C00D672DC /* Supporting Files */,
+				D694A2FE1EE63F9C00397797 /* VideoCompress-Bridging-Header.h */,
 			);
 			path = VideoCompress;
 			sourceTree = "<group>";
@@ -110,7 +115,7 @@
 				TargetAttributes = {
 					7B0FD5C31EE5373C00D672DC = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 8M2Z5J69N4;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -153,6 +158,7 @@
 			files = (
 				7B0FD5CF1EE5373C00D672DC /* ViewController.m in Sources */,
 				7B0FD5CC1EE5373C00D672DC /* AppDelegate.m in Sources */,
+				D694A3001EE63F9C00397797 /* MECache.swift in Sources */,
 				7B0FD5C91EE5373C00D672DC /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,11 +279,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8M2Z5J69N4;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = VideoCompress/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lingxian.01.facaishu1.VideoCompress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "VideoCompress/VideoCompress-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -285,11 +297,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8M2Z5J69N4;
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = VideoCompress/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lingxian.01.facaishu1.VideoCompress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "VideoCompress/VideoCompress-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -312,6 +329,7 @@
 				7B0FD5DD1EE5373C00D672DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

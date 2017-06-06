@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
+#import "VideoCompress-Swift.h"
+
 @interface ViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end
@@ -16,6 +18,7 @@
 @implementation ViewController{
 
     UIImagePickerController *_imgPicker;
+    __weak IBOutlet UILabel *cacheDisplayLbl;
 }
 
 - (void)viewDidLoad {
@@ -26,6 +29,36 @@
 
 - (IBAction)chooseLocalVideo:(id)sender {
     
+#if TARGET_IPHONE_SIMULATOR
+
+    // iOS-Simulator
+    NSString *dirPath = [NSHomeDirectory() stringByAppendingString:@"/Library"];
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSArray *subPaths = [manager subpathsAtPath:dirPath];
+    
+    NSString *movieAbsolutePath;
+    
+    for (NSString *subPath in subPaths) {
+        
+//        NSString *fileAbsolutePath = [dirPath stringByAppendingPathComponent:subPath];
+//        NSDictionary *attr = [manager attributesOfItemAtPath:fileAbsolutePath error:nil];
+//        NSLog(@"%@ - %.2f", subPath ,attr.fileSize/1024/1024.0);
+        
+        if ([subPath containsString:@".mp4"]) {
+        
+            movieAbsolutePath = [dirPath stringByAppendingPathComponent:subPath];
+        }
+    }
+    
+    NSLog(@"original movie size : %@", [MECache cacheSizeWithPath:movieAbsolutePath]);
+    
+    if (movieAbsolutePath) {
+        
+        [self compressVideoWithFileURL:[NSURL fileURLWithPath:movieAbsolutePath]];
+    }
+#else
+    
     // iOS Device
     _imgPicker = [[UIImagePickerController alloc] init];
     _imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -34,27 +67,42 @@
     [self presentViewController:_imgPicker animated:YES completion:nil];
     _imgPicker.showsCameraControls = NO;
     _imgPicker.cameraOverlayView = [[UIView alloc] init];
-    // iOS-Simulator
-//    NSURL *sourceUrl = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingString:@"/Library/OnePiece.mp4"]];
-//    
-//    NSData *data = [NSData dataWithContentsOfURL:sourceUrl];
-//    NSLog(@"original size = %.2f", data.length/1024.0/1024.0);
-//    [self compressVideoWithFileURL:sourceUrl];
+#endif
+   
     
     
 }
 
 - (IBAction)recordingVideo:(id)sender {
     
+#if TARGET_IPHONE_SIMULATOR
+    
+   
+    
+#else
     _imgPicker = [[UIImagePickerController alloc] init];
     _imgPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     _imgPicker.mediaTypes = @[@"public.movie"];
     _imgPicker.delegate = self;
     [self presentViewController:_imgPicker animated:YES completion:nil];
+#endif
+}
+
+
+- (IBAction)readCache:(id)sender {
     
-    
+    cacheDisplayLbl.text = [MECache cacheSizeWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]];
     
 }
+
+- (IBAction)cleanCache:(id)sender {
+    
+    // 清除缓存测试
+    [MECache cleanCacheWithPath:[NSHomeDirectory() stringByAppendingString:@"/Library"]];
+    cacheDisplayLbl.text = @"0.0MB";
+}
+
+
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
@@ -69,6 +117,7 @@
 }
 
 
+
 - (void)compressVideoWithFileURL:(NSURL *)tmpUrl {
 
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -81,14 +130,7 @@
     exportSession.outputURL = outputUrl;
     exportSession.outputFileType = AVFileTypeMPEG4;
 //    exportSession.shouldOptimizeForNetworkUse = YES;
-    /*
-     AVAssetExportSessionStatusUnknown,
-     AVAssetExportSessionStatusWaiting,
-     AVAssetExportSessionStatusExporting,
-     AVAssetExportSessionStatusCompleted,
-     AVAssetExportSessionStatusFailed,
-     AVAssetExportSessionStatusCancelled
-     */
+   
     [exportSession exportAsynchronouslyWithCompletionHandler:^{
         NSLog(@"%@", [NSThread currentThread]);
 
@@ -105,7 +147,7 @@
                 
             case AVAssetExportSessionStatusExporting:
                 NSLog(@"AVAssetExportSessionStatusExporting");
-                NSLog(@"%.2f", [NSData dataWithContentsOfURL:outputUrl].length/1024/1024.0);
+                NSLog(@"%.2fMB", [NSData dataWithContentsOfURL:outputUrl].length/1024/1024.0);
                 break;
                 
             case AVAssetExportSessionStatusCompleted:
@@ -124,18 +166,12 @@
 
                 break;
                 
-                
             default:
                 break;
         }
         
     }];
 }
-
-
-
-
-
 
 
 
